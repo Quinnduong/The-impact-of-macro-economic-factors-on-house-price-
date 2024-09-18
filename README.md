@@ -1,8 +1,8 @@
 This project explores the relationships between house prices in the U.S. and various macroeconomic factors, analyzing data from 1987 to 2021. By employing econometric modeling techniques, it identifies key drivers such as stock prices, consumer price index (CPI), disposable income, unemployment rate, and interest rates, and assesses their effects on the housing market.
 
-Project Overview
+## Project Overview
 
-Objectives:
+### Objectives:
 
 Identify the macroeconomic determinants of U.S. house prices.
 
@@ -12,7 +12,7 @@ Build and test econometric models to quantify these relationships.
 
 Provide insights into which factors are most influential in explaining house price variations.
 
-Data:
+### Data:
 
 Time frame: January 1987 - December 2021
 
@@ -22,7 +22,7 @@ Variables: House Price Index, Stock Price Index, Consumer Price Index, Populatio
 
 Results Summary
 
-Key Findings:
+### Key Findings:
 Income Per Capita and Unemployment Rate were the strongest predictors of house prices, explaining 92% of the variation in the House Price Index.
 
 Stock prices and CPI had significant positive effects on house prices.
@@ -33,7 +33,7 @@ Mortgage and real interest rates have negative relationships with house prices.
 
 Addressing multicollinearity and serial correlation was essential in refining the regression models.
 
-Methodologies:
+### Methodologies and Analysis:
 
 <img width="806" alt="Screenshot 2024-09-18 at 1 06 23 PM" src="https://github.com/user-attachments/assets/7a1c5de4-7e7f-448f-bc08-b537c488266d">
 
@@ -58,21 +58,26 @@ Table IV demonstrates a comparison table of Model 5 and Model 6.
 We can notice that Model 6 has a better performance since all the independent variables in this model are significant at 1% and it also has a slightly higher R-squared.
 With Model 6, in terms of magnitude, on average, 1% increase in Income_Per_Capita is associated with a 2.091% increase in the dependent variable (loghpi), holding all else as constant. Here, when we add another independent variable, the coefficient estimate of in Income_Per_Capita does not change. 
 On average, a one-unit increase in Unemployment_Rate is associated with a 1.2% decrease in the dependent variable (loghpi), holding all else as constant.
+Model:
 
 <img width="393" alt="Screenshot 2024-09-18 at 1 19 03 PM" src="https://github.com/user-attachments/assets/ebaa122f-d724-478f-9e25-4dbb218acb3d"> 
 
 Assumption: No serial correlation. Conduct testing for autocorrelation by using Durbin-Watson test and AR1 (graphic method)
+
 Hypothesis Testing:
 
-<img width="511" alt="Screenshot 2024-09-18 at 1 38 09 PM" src="https://github.com/user-attachments/assets/444ecbaf-0af2-4a39-885f-3b768073b4bf">
+<img width="205" alt="Screenshot 2024-09-18 at 1 20 30 PM" src="https://github.com/user-attachments/assets/e392c423-9e8d-4710-9968-091c1bb00bb5">
+
+
 
 DW TEST
 
-<img width="729" alt="Screenshot 2024-09-18 at 1 21 52 PM" src="https://github.com/user-attachments/assets/95bbffdd-f366-42c7-a622-ecd17c25c7c6">
+<img width="511" alt="Screenshot 2024-09-18 at 1 38 09 PM" src="https://github.com/user-attachments/assets/444ecbaf-0af2-4a39-885f-3b768073b4bf">
 
 AR1: 
 
-<img width="205" alt="Screenshot 2024-09-18 at 1 20 30 PM" src="https://github.com/user-attachments/assets/e392c423-9e8d-4710-9968-091c1bb00bb5">
+<img width="729" alt="Screenshot 2024-09-18 at 1 21 52 PM" src="https://github.com/user-attachments/assets/95bbffdd-f366-42c7-a622-ecd17c25c7c6">
+
  
 Correcting for the autocorrelation: 
 
