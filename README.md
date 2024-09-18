@@ -62,7 +62,9 @@ Model:
 
 <img width="393" alt="Screenshot 2024-09-18 at 1 19 03 PM" src="https://github.com/user-attachments/assets/ebaa122f-d724-478f-9e25-4dbb218acb3d"> 
 
-Assumption: No serial correlation. Conduct testing for autocorrelation by using Durbin-Watson test and AR1 (graphic method)
+### Assumptions and Solutions: 
+
+#### No serial correlation. Conduct testing for autocorrelation by using Durbin-Watson test and AR1 (graphic method)
 
 Hypothesis Testing:
 
@@ -89,7 +91,7 @@ Prais_winsten Method:
 
 <img width="459" alt="Screenshot 2024-09-18 at 1 42 48 PM" src="https://github.com/user-attachments/assets/63f21a41-acfe-49d5-a0a5-b3410f444b69">
 
-Test for Homoscesdasticity using the BreuschPagan test: 
+#### Test for Homoscesdasticity using the BreuschPagan test: 
 
 Hypothesis Test: H0: Homoscedasticity, Ha:Heteroscedasticity 
 
