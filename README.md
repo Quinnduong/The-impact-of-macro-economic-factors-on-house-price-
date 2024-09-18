@@ -6,6 +6,8 @@ Objectives:
 
 Identify the macroeconomic determinants of U.S. house prices.
 
+Regression equation: <img width="677" alt="Screenshot 2024-09-18 at 1 52 19 PM" src="https://github.com/user-attachments/assets/806c8fad-ae2a-457f-aef2-1a014c9b5957">
+
 Build and test econometric models to quantify these relationships.
 
 Provide insights into which factors are most influential in explaining house price variations.
@@ -79,6 +81,7 @@ First Differencing Method
 <img width="493" alt="Screenshot 2024-09-18 at 1 41 22 PM" src="https://github.com/user-attachments/assets/33d0558b-403b-497d-ae29-4d1d217b2429">
 
 Prais_winsten Method:
+
 <img width="459" alt="Screenshot 2024-09-18 at 1 42 48 PM" src="https://github.com/user-attachments/assets/63f21a41-acfe-49d5-a0a5-b3410f444b69">
 
 Test for Homoscesdasticity using the BreuschPagan test: 
