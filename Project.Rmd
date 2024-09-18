@@ -1,0 +1,207 @@
+---
+title: "Final Project"
+author: "Team 5"
+date: "2023-11-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = TRUE)
+knitr::opts_chunk$set(messag = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning =  FALSE)
+```
+Install packages and libraries for our final project
+```{r}
+install.packages('prais')
+```
+
+Import libraries
+```{r}
+library(lmtest)
+library(sandwich) 
+library(stargazer)
+library(tidyverse)
+library(prais)
+library(dplyr) #be able to use mutate function
+```
+Set working directory and read in data
+```{r}
+rawdata <- read.csv("all_data.csv")
+```
+#Real_GDP: Monthly version unit: Annualised change.
+```{r}
+head(rawdata)
+tail(rawdata)
+```
+
+
+```{r}
+stargazer(rawdata,type = 'text')
+
+``` 
+```{r}
+cor(rawdata)
+```
+
+```{r}
+new_dat <- mutate(rawdata,
+                   Income_Per_Capita = Real_Disposable_Income/Population,
+                   logipc = log(Income_Per_Capita),
+                  loghpi = log(House_Price_Index)
+                  )
+new_data  <- na.omit(new_dat)
+head(new_data)
+```
+
+```{r}
+model1 = lm(loghpi ~ Stock_Price_Index, data =new_data)
+summary(model1)
+```
+
+
+```{r}
+model2 = lm(loghpi ~ Consumer_Price_Index, data =new_data)
+summary(model2)
+
+```
+
+
+```{r}
+
+model3 = lm(loghpi ~ Mortgage_Rate, data =new_data)
+summary(model3)
+```
+
+```{r}
+model4 = lm(loghpi ~ Real_Interest_Rate, data =new_data)
+summary(model4)
+```
+
+```{r}
+model5 = lm(loghpi ~ logipc, data =new_data)
+```
+
+
+```{r}
+summary(model5)
+```
+```{r}
+stargazer(model1, model2, model3, model4, model5, type = "text")
+```
+
+
+```{r}
+model6 = lm(loghpi ~ logipc + Unemployment_Rate, data = new_data)
+summary(model6)
+```
+
+```{r}
+stargazer(model5,model6, type = "text")
+```
+
+```{r}
+cor(new_data)
+```
+
+
+```{r}
+
+plot(new_data$Date, model5$residuals,main  = "Statistic Model: Residuals Over time", xlab = "Year", ylab = "Residuals", data = new_data)
+plot(new_data$Date, model6$residuals,main  = "Statistic Model: Residuals Over time", xlab = "Year", ylab = "Residuals", data = new_data)
+
+```
+
+
+```{r}
+new_data$residuals <- resid(model6)
+
+new_data
+```
+
+```{r}
+RHAT <- resid(model6, data = new_data)
+```
+
+```{r}
+dwtest(model6, alternative = "two.sided")
+
+bgtest(model6, order = 1)
+```
+III Next step will be to conduct a hypothesis test to determine if these findings are the same as the DW test.
+
+H0: no autocorrelation
+H1: autocorrelation present
+```{r}
+new_data$LRHAT <- lag(RHAT, 1)
+
+plot(new_data$LRHAT, model6$residuals,main  = "AR1", xlab = "Residuals Lag", ylab = "Residuals", data = new_data)
+AR1 <- lm(RHAT ~ LRHAT, data = new_data)
+summary(AR1)
+```
+
+IV Correcting for the autocorrelation: First Differencing Method
+
+```{r}
+new_data$LRHAT <- lag(RHAT, 1)
+betahats <- coef(AR1)
+RHO <- betahats[2]
+new_data$diffhpi <- new_data$loghpi- RHO*lag(new_data$loghpi, 1)
+new_data$diffunempr <- new_data$Unemployment_Rate - RHO*lag(new_data$Unemployment_Rate, 1)
+new_data$diffipc <- new_data$Income- RHO*lag(new_data$logipc, 1)
+model7 <- lm(diffhpi ~ diffipc + diffunempr, data = new_data)
+summary(model7)
+dwtest(model7)
+```
+```{r}
+stargazer(model6,model7, type = "text")
+```
+
+```{r}
+pw <- prais_winsten(formula = loghpi ~ logipc + Unemployment_Rate, data = new_data, index = new_data$date)
+summary(pw)
+```
+```{r}
+dwtest(pw)
+bptest(pw)
+```
+
+
+```{r}
+install.packages("sandwich")
+install.packages("lmtest")
+```
+```{r}
+library(sandwich)
+library(lmtest)
+model8 <-coeftest(model6, vcov = NeweyWest)
+stargazer(model6,model8, type = "text")
+```
+ 
+Test for Homoscesdasticity 
+```{r}
+# residual
+new_data$RHAT2<-resid(model6)^2
+u2model<- lm(RHAT2 ~ logipc + Unemployment_Rate, data=new_data)
+summary(u2model)
+```
+```{r}
+bptest(model6)
+```
+
+```{r}
+#Ho: Homoscedasticity  
+#Ha: Heteroscedasticity
+bptest(model6)
+##Solution: Robust standard error
+
+modfinal<-coeftest(model6,sandwich)
+modfinal
+
+#stargazer output with both robust SEs
+robust.covariancemtx <- sandwich(model6)
+robust.se <- sqrt(diag(robust.covariancemtx))
+stargazer(model6, modfinal, se=list(NULL,robust.se), type="text")
+```
+
+
+
